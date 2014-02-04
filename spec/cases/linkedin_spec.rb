@@ -34,4 +34,21 @@ describe LinkedIn do
     LinkedIn.default_profile_fields.should == ['educations', 'positions']
   end
 
+  describe "#middleware" do
+    it "provides a default middleware stack" do
+      LinkedIn.middleware = nil
+
+      LinkedIn::Client.new.send(:middleware).should be_instance_of(Faraday::Builder)
+    end
+
+    it "allows the user to define their own middleware stack" do
+      custom_middleware = Faraday::Builder.new do |faraday|
+        faraday.adapter :net_http
+      end
+
+      LinkedIn.middleware = custom_middleware
+
+      LinkedIn.middleware.should == custom_middleware
+    end
+  end
 end

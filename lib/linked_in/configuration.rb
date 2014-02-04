@@ -59,9 +59,7 @@ module LinkedIn
 
     DEFAULT_FARADAY_OPTIONS = {}.freeze
 
-    DEFAULT_MIDDLEWARE = [
-      ::LinkedIn::ErrorReporter
-    ]
+    DEFAULT_MIDDLEWARE = nil
 
     # @private
     attr_accessor *VALID_OPTIONS_KEYS

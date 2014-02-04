@@ -54,21 +54,19 @@ module LinkedIn
     def connection
       raise "Please authenticate first" unless authenticated?
 
-      @connection ||= Faraday.new(connection_options) do |builder|
+      @connection ||= Faraday.new(connection_options.merge(builder: middleware))
+    end
+
+    def middleware
+      @middleware ||= Faraday::Builder.new do |builder|
         builder.use ::Faraday::Request::OAuth, authentication
         builder.use ::Faraday::Request::UrlEncoded
-
         builder.use ::FaradayMiddleware::Mashify, :mash_class => LinkedIn::Mash
         builder.use ::Faraday::Response::ParseJson
-
-        LinkedIn.middleware.each do |middle|
-          builder.use middle
-        end
-
+        builder.use ::LinkedIn::ErrorReporter
         builder.adapter(LinkedIn.adapter)
       end
     end
 
   end
-
 end
