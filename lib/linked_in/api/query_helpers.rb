@@ -16,8 +16,10 @@ module LinkedIn
 
         if options.delete(:public)
           path +=":public"
+          path = './' + path
         elsif fields
           path +=":(#{build_fields_params(fields)})"
+          path = './' + path
         end
 
         headers = options.delete(:headers) || {}

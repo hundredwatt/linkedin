@@ -18,7 +18,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def search(options={}, type='people')
 
-      path = "#{type.to_s}-search"
+      path = "./#{type.to_s}-search"
 
       if options.is_a?(Hash)
         fields = options.delete(:fields)
